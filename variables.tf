@@ -5,7 +5,7 @@ variable "ami" {
 
 variable "instance_type" {
     type = string
-    default = "t2.2xlarge"
+    default = "t2.xlarge"
 }
 
 variable "key_name" {

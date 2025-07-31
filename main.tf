@@ -130,12 +130,12 @@ resource "aws_iam_role" "ec2_access_role" {
 # iam profile for the above role
 resource "aws_iam_instance_profile" "test_profile" {
   name = "test_profile"
-  role = aws_iam_role.ec2_access_role.id
+  role = aws_iam_role.ec2_access_role.name
 }
 
 resource "aws_iam_role_policy" "test_policy" {
   name = "test_policy"
-  role = aws_iam_role.ec2_access_role.id
+  role = aws_iam_role.ec2_access_role.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -143,9 +143,7 @@ resource "aws_iam_role_policy" "test_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "ec2:Describe*",
-        ]
+        Action = "*"
         Effect   = "Allow"
         Resource = "*"
       },
