@@ -7,7 +7,7 @@ eksctl create cluster --name kubernetes-cluster --version 1.30 --region us-east-
 eksctl delete cluster --region=us-east-1 --name=kubernetes-cluster #delete eks cluster
 
 #To get context information of kubernetes cluster
-cat /home/ec2-user/.kube/config 
+cat /home/ubuntu/.kube/config 
 
 #To create namespace in kubernetes cluster
 kubectl create namespace devsecops

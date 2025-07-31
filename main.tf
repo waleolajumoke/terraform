@@ -103,8 +103,8 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 }
 
 # iam role and policy
-resource "aws_iam_role" "ec2_access_role" {
-  name = "ec2_access_role"
+resource "aws_iam_role" "access_role" {
+  name = "access_role"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -123,19 +123,19 @@ resource "aws_iam_role" "ec2_access_role" {
   })
 
   tags = {
-    tag-key = "ec2_access_role"
+    tag-key = "access_role"
   }
 }
 
 # iam profile for the above role
 resource "aws_iam_instance_profile" "test_profile" {
   name = "test_profile"
-  role = aws_iam_role.ec2_access_role.name
+  role = aws_iam_role.access_role.name
 }
 
 resource "aws_iam_role_policy" "test_policy" {
   name = "test_policy"
-  role = aws_iam_role.ec2_access_role.name
+  role = aws_iam_role.access_role.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.

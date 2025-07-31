@@ -53,25 +53,42 @@ unzip awscliv2.zip
 sudo ./aws/install
 rm awscliv2.zip
 
+ # Install dependencies
+sudo apt-get install -y curl unzip apt-transport-https ca-certificates gnupg
+
+# Install kubectl (v1.30.0 for x86_64)
+curl -LO "https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+# Install eksctl (latest)
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin/
+
+# Verify versions
+kubectl version --client
+eksctl version
+
 # install kubectl 
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
-chmod +x ./kubectl
-mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
+# curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
+# chmod +x ./kubectl
+# mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+# echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
 
-# eks installation 
-# for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
-ARCH=amd64
-PLATFORM=$(uname -s)_$ARCH
 
-curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+# # eks installation 
+# # for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+# ARCH=amd64
+# PLATFORM=$(uname -s)_$ARCH
 
-# (Optional) Verify checksum
-curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+# curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
 
-tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+# # (Optional) Verify checksum
+# curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
 
-sudo install -m 0755 /tmp/eksctl /usr/local/bin && rm /tmp/eksctl
+# tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+
+# sudo install -m 0755 /tmp/eksctl /usr/local/bin && rm /tmp/eksctl
 
 # add ubuntu and jenkins user in docker group
 sudo usermod -aG docker ubuntu
