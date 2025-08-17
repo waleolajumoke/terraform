@@ -4,15 +4,25 @@
 sudo apt-get update
 
 # install jenkins on ubuntu 16.04 LTS
-sudo apt install fontconfig openjdk-17-jre -y
+sudo apt-get install -y openjdk-17-jre curl gpg
 
-sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt upgrade -y
-sudo apt-get install jenkins -y
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo gpg --dearmor -o /etc/apt/keyrings/jenkins.gpg
+echo "deb [signed-by=/etc/apt/keyrings/jenkins.gpg] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y jenkins
+
+# # install jenkins on ubuntu 16.04 LTS
+# sudo apt install fontconfig openjdk-17-jre -y
+
+# sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+#   https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+# echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+#   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+#   /etc/apt/sources.list.d/jenkins.list > /dev/null
+# sudo apt upgrade -y
+# sudo apt-get install jenkins -y
 
 # Change Jenkins port from 8080 to 9090
 # sudo sed -i 's/HTTP_PORT=8080/HTTP_PORT=8081/' /etc/default/jenkins
